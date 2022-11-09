@@ -1,16 +1,31 @@
-// -------------------------------------
-// Miter slot dimensions - Tool specific
-//slot_width = 19.65;
-// DeWalt 7491RS w/Elegoo Neptune2s, see README
-slot_width = 19.25; // 19.25 Perfect;  19.2 - hair loose, 19.3 snug in a few spots
-slot_height = 10.40; // total height
+/* [Part-specific settings] */
+// Number of many segments long
+segments=2;
+
+// Length of each segment
+segment_length = 80;
+
+// Bolt (true) or countersink for wood screw (false)
+bolt = true; // [true,false]
+
+// Inset bottom groove to lock into miter slot, `false` for a drop-in runner
+groove = true; // [true,false]
+
+// Chain: `true` to cope end for multi-part longer runners
+chain = false; // [true,false]
+
+/* [Tool-specific Miter Slot Dimensions] */
+
+// Width of the main miter slot
+slot_width = 19.25; 
+// Total height of the bar
+slot_height = 10.40;
 
 // T Groove dimensions for bottom of miter slot
 groove_width = 23;
 groove_height = 3.5;
 
-// -------------------------------------
-// Fastener holes - Nut + Bolt or Wood Screw
+/* [Fastener Holes - Nut + Bolt or Wood Screw] */
 
 // 1/4"-20 Imperial Nut + Bolt
 nut_width = 12.75;
@@ -60,12 +75,12 @@ module tslot_segment(t, slot_length, bolt, groove, chain){
         }
 
         // Round corner edges
-        scale([1,.85,1])
-        cylinder(h=slot_height, d=slot_length);
+        scale([1,.55,1])
+        cylinder(h=slot_height, d=slot_length, $fn=60);
     }
     // end cutout for extensions
     if (chain) {
-        scale([1,.85,1]) translate([slot_length*.96,0,0])
+        scale([1,.55,1]) translate([slot_length*.96,0,0])
         cylinder(h=slot_height, d=slot_length, $fn=60);
     }
     }
@@ -76,21 +91,5 @@ module tslot(segments=1, slot_length=80, bolt=true, groove=true, chain=false) {
         tslot_segment(i, slot_length, bolt, groove, chain);
     }
 }
-
-
-// how many segments long
-segments=2;
-
-// lengt of each segment
-segment_length = 80;
-
-// bolt (true) or countersink for wood screw (false)
-bolt = true;
-
-// inset bottom, groove to lock into miter slot, false for a drop-in runner
-groove = true;
-
-// chain: true to groove in end for multi-part longer runners
-chain = false;
 
 tslot(segments, segment_length, bolt, groove, chain);
